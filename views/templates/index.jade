@@ -1,0 +1,46 @@
+extends header
+
+block content
+
+  .padding_big
+    if message
+      if message.type == 'error'
+        h4.text.bold.color.c_red.margin_bottom_big #{message.description}
+
+    if user
+      h4.text.bold Logged as:
+        h5 #{user.username}
+        h5 #{user.email}
+        h5 #{user.registerDate}
+
+      h6.text.bold.margin_top_small
+        a.text.color.c_green(href='/api/users') View all users
+
+      h6.margin_top_small
+        a.text.color.c_blue(href='/logout') Logout
+
+    else
+      h4.text.bold Login
+
+      form(action='/login', method='post')
+        input.border.solid.all_small(type='text', name='username', placeholder='Username')
+        input.border.solid.all_small(type='text', name='pass', placeholder='Password')
+        
+        button.btn.normal.border.solid.all_small(type='submit') Send
+
+      h4.text.bold.margin_top_big Register
+
+      form(action='.', method='post')
+        input.border.solid.all_small(type='text', name='username', placeholder='Username')
+        input.border.solid.all_small(type='email', name='email', placeholder='Email')
+        input.border.solid.all_small(type='text', name='pass', placeholder='Password')
+        
+        button.btn.normal.border.solid.all_small(type='submit') Register
+
+  if env == 'dev'
+    h4.padding_left_big App in Dev mode
+    script(src='/vendors/requirejs/require.js', data-main='config')
+    script require(['app'],function(App){});
+  if env == 'prod'
+    h4.padding_left_big App in Prod mode
+    script(src='/vendors/requirejs/require.js', data-main='app')
