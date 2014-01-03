@@ -1,4 +1,5 @@
 .DS_Store
+assets/stylesheets
 assets/vendors
 node_modules
 public
