@@ -1,6 +1,6 @@
 exports.init = function(noderplate) {
   var requireLogin = noderplate.app.config.middlewares.requireLogin;
-  
+
   noderplate.app.post('/', noderplate.app.core.users.register);
 
   noderplate.app.post('/login', noderplate.app.core.users.login);
