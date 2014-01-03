@@ -125,8 +125,11 @@ module.exports = function(grunt) {
           'assets/javascript/**/*.js',
           'api/**/*.js',
           'config/**/*.js',
-          'core/**/*.js'
-        ]
+          'core/**/*.js',
+          'model/**/*.js',
+          'views/**/*.js'
+        ],
+        tasks: ['jshint']
       },
       stylus: {
         files: ['assets/stylesheets/**/*.styl'],
