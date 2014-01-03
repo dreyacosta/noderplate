@@ -1,0 +1,33 @@
+_gridsystemWidth = (column_width + gutter_width) * columns
+
+clearfix()
+  *zoom:1
+  &:before,
+  &:after
+    content ""
+    display table
+  &:after
+    clear both
+
+row(columns = columns)
+  display block
+  width total_width * ((gutter_width + _gridsystemWidth ) / _gridsystemWidth)
+  margin 0 total_width * (((gutter_width * 0.5) / _gridsystemWidth ) * - 1)
+
+column(x, columns = columns)
+  width total_width * ((((gutter_width + column_width ) * x) - gutter_width) / _gridsystemWidth)
+
+offset(offset = 1)
+
+.row
+  width 100%
+  clearfix()
+
+[class^="col"]
+  display inline
+  float left
+  margin 0 total_width * ((gutter_width * 0.5) / _gridsystemWidth)
+
+for row in numbers_columns
+  .col{row}
+    column(row)
