@@ -1,6 +1,7 @@
 exports.init = function(noderplate) {
+  var mongoose = noderplate.imports.mongoose;
 
-  var userSchema = noderplate.modules.mongoose.Schema({
+  var userSchema = mongoose.Schema({
     username: String,
     fullName: String,
     provider: String,
@@ -22,7 +23,7 @@ exports.init = function(noderplate) {
     salt: String
   });
 
-  var User = noderplate.modules.mongoose.model('user', userSchema);
+  var User = mongoose.model('user', userSchema);
 
   return User;
 };

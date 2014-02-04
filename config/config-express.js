@@ -1,49 +1,57 @@
 exports.init = function(noderplate) {
-  noderplate.app.env = process.argv[2] || 'prod';
+  var app        = noderplate.app,
+      path       = noderplate.imports.path,
+      express    = noderplate.imports.express,
+      MongoStore = noderplate.app.MongoStore,
+      rootPath   = path.normalize(__dirname + '/..');
 
-  var rootPath = noderplate.modules.path.normalize(__dirname + '/..');
+  app.env = process.argv[2] || 'prod';
 
-  noderplate.app.use(function(req, res, next) {
-    req.core = noderplate.app.core;
+  app.use(function(req, res, next) {
+    req.core = app.core;
     next();
   });
 
-  noderplate.app.set('port', process.env.PORT || 3000);
-  noderplate.app.set('views', rootPath + '/views/templates');
-  noderplate.app.set('view engine', 'jade');
-  noderplate.app.use(noderplate.modules.express.favicon());
+  app.set('port', process.env.PORT || 3000);
+  app.set('views', rootPath + '/views/templates');
+  app.set('view engine', 'jade');
+  app.use(express.favicon());
 
-  if (noderplate.app.env === 'dev') {
-    noderplate.app.use(noderplate.modules.express.logger('dev'));  
+  if (app.env === 'dev') {
+    app.use(express.logger('dev'));
   }
 
-  if (noderplate.app.env === 'prod') {
-    noderplate.app.use(noderplate.modules.express.logger());  
+  if (app.env === 'prod') {
+    app.use(express.logger());
   }
 
-  noderplate.app.use(noderplate.modules.express.bodyParser());
-  noderplate.app.use(noderplate.modules.express.methodOverride());
-  noderplate.app.use(noderplate.modules.express.cookieParser());
-  noderplate.app.use(noderplate.modules.express.session({
-    store: new noderplate.modules.MongoStore({
+  app.use(express.bodyParser());
+  app.use(express.json());
+  app.use(express.urlencoded());
+  app.use(express.methodOverride());
+  app.use(express.cookieParser());
+
+  app.use(express.session({
+    store: new MongoStore({
       url: 'mongodb://localhost/test'
     }),
     cookie: {maxAge: 60000},
     secret: '1234567890QWERTY'
   }));
-  noderplate.app.use(noderplate.app.router);
 
-  noderplate.app.use(noderplate.modules.express.compress({
+  app.use(app.router);
+
+  app.use(express.compress({
     filter: function(req, res) {
       return (/json|text|javascript|css/).test(res.getHeader('Content-Type'));
     },
     level: 9
   }));
 
-  noderplate.app.use(require('stylus').middleware(__dirname + '/public'));
-  noderplate.app.use(noderplate.modules.express.static(rootPath + '/public'));
+  app.use(require('stylus').middleware(__dirname + '/public'));
+  app.use(express.static(rootPath + '/public'));
 
-  if ('dev' === noderplate.app.env) {
-    noderplate.app.use(noderplate.modules.express.errorHandler());
+  if ('dev' === app.env) {
+    app.use(express.errorHandler());
   }
 };

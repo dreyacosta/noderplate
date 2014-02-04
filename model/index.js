@@ -1,7 +1,8 @@
 exports.init = function(noderplate) {
-  var model = {};
+  var model    = {},
+      mongoose = noderplate.imports.mongoose;
 
-  noderplate.modules.mongoose.connect('mongodb://localhost/test', function(err) {
+  mongoose.connect('mongodb://localhost/test', function(err) {
     if (err) { throw err; }
   });
 
