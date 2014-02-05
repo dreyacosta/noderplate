@@ -19,11 +19,12 @@ var express                    = noderplate.imports.express,
     noderplate.app.MongoStore  = noderplate.imports.MongoStore(express);
 
 // Set up App modules
-noderplate.app.config = require('./config').init(noderplate);
-noderplate.app.model  = require('./model').init(noderplate);
-noderplate.app.core   = require('./core').init(noderplate);
-noderplate.app.views  = require('./views').init(noderplate);
-noderplate.app.api    = require('./api').init(noderplate);
+noderplate.app.config      = require('./config').init(noderplate);
+noderplate.app.model       = require('./model').init(noderplate);
+noderplate.app.core        = require('./core').init(noderplate);
+noderplate.app.views       = require('./views').init(noderplate);
+noderplate.app.controllers = require('./controllers').init(noderplate);
+noderplate.app.routers     = require('./routers').init(noderplate);
 
 server.listen(noderplate.app.get('port'), function(){
   console.log('Express server listening on port ' + noderplate.app.get('port'));

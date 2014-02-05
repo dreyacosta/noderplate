@@ -1,14 +1,16 @@
 exports.init = function (noderplate) {
-  var users = {};
+  var users  = {},
+      bcrypt = noderplate.imports.bcrypt,
+      model  = noderplate.app.model;
 
-  users.register = function(req, res) {
-    var username = req.param('username');
-    var pass = req.param('pass');
-    var email = req.param('email');
+  users.register = function(options, cb) {
+    var username = options.username,
+        email    = options.email,
+        pass     = options.pass;
 
-    noderplate.modules.bcrypt.genSalt(10, function(err, salt) {
-      noderplate.modules.bcrypt.hash(pass, salt, function(err, hash) {
-        var user = new noderplate.app.model.User();
+    bcrypt.genSalt(10, function(err, salt) {
+      bcrypt.hash(pass, salt, function(err, hash) {
+        var user = new model.User();
 
         user.username = username;
         user.email = email;
@@ -17,57 +19,39 @@ exports.init = function (noderplate) {
 
         user.save();
 
-        res.redirect('/');
+        cb(user);
       });
     });
   };
 
-  users.login = function(req, res) {
-    var username = req.param('username');
-    var pass = req.param('pass');
+  users.login = function(options, cb) {
+    var username = options.username,
+        pass     = options.pass;
 
-    noderplate.app.model.User.findOne({username: username}, function(err, user) {
+    model.User.findOne({username: username}, function(err, user) {
       if (err) { throw err; }
 
       if (user) {
-        noderplate.modules.bcrypt.compare(pass, user.pass, function(err, response) {
+        bcrypt.compare(pass, user.pass, function(err, response) {
           if (err) { throw err; }
 
           if (response === true) {
-            req.session.authenticated = true;
-            req.session.user = {
-              username: user.username,
-              email: user.email,
-              registerDate: user.registerDate
-            };
+            cb(user);
           } else {
-            req.session.message = {
-              type: 'error',
-              description: 'Check your password'
-            };
+            cb('check your password');
           }
-          res.redirect('/');
         });
       } else {
-        req.session.message = {
-          type: 'error',
-          description: 'Not user found'
-        };
-        res.redirect('/');
+        cb('not user found');
       }
     });
   };
 
-  users.logout = function(req, res) {
-    req.session.destroy();
-    res.redirect('/');
-  };
-
-  users.all = function(req, res) {
-    noderplate.app.model.User.find({}, function(err, users) {
+  users.all = function(options, cb) {
+    model.User.find({}, function(err, users) {
       if (err) { throw err; }
 
-      res.json(users);
+      cb(users);
     });
   };
 
