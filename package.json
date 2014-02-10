@@ -14,14 +14,13 @@
     "connect-mongo": "*"
   },
   "devDependencies": {
-    "bower": "~1.2.7",
-    "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "~0.7.1",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-contrib-copy": "~0.4.1",
-    "grunt-contrib-stylus": "~0.10.0",
-    "grunt-jade": "~0.4.0",
-    "grunt-contrib-requirejs": "~0.4.1"
+    "bower": "*",
+    "grunt": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-contrib-copy": "*",
+    "grunt-contrib-stylus": "*",
+    "grunt-jade": "*"
   }
 }

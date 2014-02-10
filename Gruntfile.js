@@ -68,35 +68,13 @@ module.exports = function(grunt) {
       all: [
         'Gruntfile.js',
         'assets/javascript/**/*.js',
-        'api/**/*.js',
         'config/**/*.js',
+        'controllers/**/*.js',
         'core/**/*.js',
         'model/**/*.js',
+        'routers/**/*.js',
         'views/**/*.js'
       ]
-    },
-
-    requirejs: {
-      compile: {
-        options: {
-          baseUrl: 'assets/',
-          mainConfigFile: 'assets/config.js',
-          out: 'public/app.js',
-          name: 'app',
-          preserveLicenseComments: false,
-          done: function(done, output) {
-            var duplicates = require('rjs-build-analysis').duplicates(output);
-
-            if (duplicates.length > 0) {
-              grunt.log.subhead('Duplicates found in requirejs build:');
-              grunt.log.warn(duplicates);
-              done(new Error('r.js built duplicate modules, please check the excludes option.'));
-            }
-
-            done();
-          }
-        }
-      }
     },
 
     stylus: {
@@ -123,10 +101,11 @@ module.exports = function(grunt) {
         files: [
           'Gruntfile.js',
           'assets/javascript/**/*.js',
-          'api/**/*.js',
           'config/**/*.js',
+          'controllers/**/*.js',
           'core/**/*.js',
           'model/**/*.js',
+          'routers/**/*.js',
           'views/**/*.js'
         ],
         tasks: ['jshint']
@@ -141,12 +120,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-stylus');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-jade');
 
-  grunt.registerTask('build', ['clean', 'jshint', 'jade', 'stylus', 'copy:public', 'requirejs']);
-  grunt.registerTask('default', ['clean', 'jshint', 'jade', 'stylus', 'copy:public']);
+  grunt.registerTask('build', ['clean', 'jshint', 'jade', 'copy:public']);
+  grunt.registerTask('default', ['clean', 'jshint', 'jade', 'copy:public']);
 
 };
