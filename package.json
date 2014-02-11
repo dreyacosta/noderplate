@@ -11,7 +11,10 @@
     "stylus": "*",
     "mongoose": "*",
     "bcrypt": "*",
-    "connect-mongo": "*"
+    "connect-mongo": "*",
+    "browserify-zepto": "*",
+    "underscore": "*",
+    "backbone": "*"
   },
   "devDependencies": {
     "bower": "*",
@@ -21,6 +24,8 @@
     "grunt-contrib-clean": "*",
     "grunt-contrib-copy": "*",
     "grunt-contrib-stylus": "*",
-    "grunt-jade": "*"
+    "grunt-jade": "*",
+    "browserify": "~3.28.0",
+    "grunt-browserify": "~1.3.0"
   }
 }

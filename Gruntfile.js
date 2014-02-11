@@ -3,15 +3,20 @@ module.exports = function(grunt) {
   grunt.initConfig({
     clean: ['public'],
 
+    browserify: {
+      dist: {
+        files: {
+          'public/js/app.js': ['assets/js/main.js']
+        }
+      }
+    },
+
     copy: {
       public: {
         expand: true,
         cwd: 'assets/',
         src: [
-          'images/**',
-          'javascript/**',
-          '*.js',
-          'vendors/**'
+          'images/**'
         ],
         dest: 'public'
       },
@@ -93,6 +98,10 @@ module.exports = function(grunt) {
       options: {
         event: ['added', 'changed']
       },
+      browserify: {
+        files: ['assets/js/**/*.js'],
+        tasks: ['browserify']
+      },
       jade: {
         files: ['assets/templates/**/*.jade'],
         tasks: ['jade', 'copy:public']
@@ -122,9 +131,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-stylus');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-jade');
 
-  grunt.registerTask('build', ['clean', 'jshint', 'jade', 'copy:public']);
-  grunt.registerTask('default', ['clean', 'jshint', 'jade', 'copy:public']);
+  grunt.registerTask('build', ['clean', 'jshint', 'jade', 'browserify', 'stylus', 'copy:public']);
+  grunt.registerTask('default', ['clean', 'jshint', 'jade', 'browserify', 'stylus', 'copy:public']);
 
 };
