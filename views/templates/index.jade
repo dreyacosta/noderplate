@@ -23,24 +23,23 @@ block content
       h4.text.bold Login
 
       form(action='/login', method='post')
-        input.border.solid.all_small(type='text', name='username', placeholder='Username')
-        input.border.solid.all_small(type='text', name='pass', placeholder='Password')
-        
-        button.btn.normal.border.solid.all_small(type='submit') Send
+        input.padding_small.border.solid.all_small(type='text', name='username', placeholder='Username')
+        input.padding_small.border.solid.all_small(type='text', name='pass', placeholder='Password')
+
+        button.padding_small.border.solid.all_small(type='submit') Send
 
       h4.text.bold.margin_top_big Register
 
       form(action='.', method='post')
-        input.border.solid.all_small(type='text', name='username', placeholder='Username')
-        input.border.solid.all_small(type='email', name='email', placeholder='Email')
-        input.border.solid.all_small(type='text', name='pass', placeholder='Password')
-        
-        button.btn.normal.border.solid.all_small(type='submit') Register
+        input.padding_small.border.solid.all_small(type='text', name='username', placeholder='Username')
+        input.padding_small.border.solid.all_small(type='email', name='email', placeholder='Email')
+        input.padding_small.border.solid.all_small(type='text', name='pass', placeholder='Password')
+
+        button.padding_small.border.solid.all_small(type='submit') Register
 
   if env == 'dev'
     h4.padding_left_big App in Dev mode
-    script(src='/vendors/requirejs/require.js', data-main='config')
-    script require(['app'],function(App){});
+    script(src='/js/app.js')
   if env == 'prod'
     h4.padding_left_big App in Prod mode
-    script(src='/vendors/requirejs/require.js', data-main='app')
+    script(src='/js/app.min.js')
