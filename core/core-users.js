@@ -3,24 +3,47 @@ exports.init = function (noderplate) {
       bcrypt = noderplate.imports.bcrypt,
       model  = noderplate.app.model;
 
+  var generateSalt = function(password, cb) {
+    bcrypt.genSalt(10, function(err, salt) {
+      bcrypt.hash(password, salt, function(err, hash) {
+        var resp = {
+          salt: salt,
+          hash: hash
+        };
+
+        return cb(resp);
+      });
+    });
+  };
+
+  var compareHash = function(password, hash, cb) {
+    bcrypt.compare(password, hash, function(err, response) {
+      if (err) { throw err; }
+
+      if (response === true) {
+        return cb(true);
+      } else {
+        return cb('check your password');
+      }
+    });
+  };
+
   users.register = function(options, cb) {
     var username = options.username,
         email    = options.email,
         pass     = options.pass;
 
-    bcrypt.genSalt(10, function(err, salt) {
-      bcrypt.hash(pass, salt, function(err, hash) {
-        var user = new model.User();
+    generateSalt(pass, function(resp) {
+      var user = new model.User();
 
-        user.username = username;
-        user.email = email;
-        user.pass = hash;
-        user.salt = salt;
+      user.username = username;
+      user.email = email;
+      user.pass = resp.hash;
+      user.salt = resp.salt;
 
-        user.save();
+      user.save();
 
-        cb(user);
-      });
+      return cb(user);
     });
   };
 
@@ -32,14 +55,8 @@ exports.init = function (noderplate) {
       if (err) { throw err; }
 
       if (user) {
-        bcrypt.compare(pass, user.pass, function(err, response) {
-          if (err) { throw err; }
-
-          if (response === true) {
-            cb(user);
-          } else {
-            cb('check your password');
-          }
+        compareHash(pass, user.pass, function(res) {
+          if (res) { return cb(user); }
         });
       } else {
         cb('not user found');
