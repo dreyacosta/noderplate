@@ -14,7 +14,8 @@
     "connect-mongo": "*",
     "browserify-zepto": "*",
     "underscore": "*",
-    "backbone": "*"
+    "backbone": "*",
+    "nodemailer": "~0.6.0"
   },
   "devDependencies": {
     "bower": "*",

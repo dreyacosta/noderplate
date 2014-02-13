@@ -9,7 +9,8 @@ noderplate.imports = {
   path       : require('path'),
   bcrypt     : require('bcrypt'),
   mongoose   : require('mongoose'),
-  MongoStore : require('connect-mongo')
+  MongoStore : require('connect-mongo'),
+  nodemailer : require('nodemailer')
 };
 
 var express                    = noderplate.imports.express,

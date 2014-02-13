@@ -10,6 +10,17 @@ exports.init = function(noderplate) {
 
     req.core.users.register(options, function(user) {
       if (user) {
+        var mailOptions = {
+          from: "Your Name ✔ <user@provider.com>",
+          to: user.email,
+          subject: "Hello ✔",
+          text: "Hello world ✔",
+          html: "<b>Hello world ✔</b>"
+        };
+        req.core.sendmail.send(mailOptions, function(ress) {
+          console.log(ress);
+        });
+
         res.redirect('/');
       }
     });
@@ -28,6 +39,7 @@ exports.init = function(noderplate) {
         email: user.email,
         registerDate: user.registerDate
       };
+
       res.redirect('/');
     });
   };
